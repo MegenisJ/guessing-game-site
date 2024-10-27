@@ -1,9 +1,10 @@
 package Components 
 
 templ Clue(){
-    //@Leaderboard
-
     Prompt left ------ prompt right  
-    <input type="text" value="Enter your guess!">
+    <form hx-post="/clue">
+        <input type="text" value="Enter your guess!">
+        <button> Submit </button>
+    </form>
 }
 

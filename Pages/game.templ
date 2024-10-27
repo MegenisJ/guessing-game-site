@@ -1,10 +1,19 @@
 package pages
 
-import "megenisj/guessing-game/Components"
-templ Game(){
+import (
+    "megenisj/guessing-game/Components"
+    "megenisj/guessing-game/State"
+)
+
+templ Game(state State.State){
     @Components.Header()
     <body>
     @Components.Leaderboard()
-
+    switch state.Phase {
+        case 1:
+            @Components.Clue()
+        case 2:
+            @Components.GuessPosition()
+    }
     </body>
 }
