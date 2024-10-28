@@ -45,8 +45,8 @@ func Insert(s State){
     if err != nil {
         log.Fatal(err)
     }
-
     defer stmt.Close()
+
     _,err = stmt.Exec(s.GameId,s.Phase,s.Turn,s.Guesser)
     if err != nil {
         log.Fatal(err)
@@ -62,7 +62,7 @@ func Select(gameId int) State{
     db := connect()
     defer db.Close()
 
-    rows,err := db.Query("select GameId,Phase, TurnCount,Guesser from foo")
+    rows,err := db.Query("select GameId,Phase, TurnCount,Guesser from foo where GameId == (?)")
     if err != nil {
         log.Fatal(err)
     }

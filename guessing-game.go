@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"github.com/a-h/templ"
 	handlers "megenisj/guessing-game/Handlers"
 	state "megenisj/guessing-game/State"
 	pages "megenisj/guessing-game/pages"
-	"net/http"
-
-	"github.com/a-h/templ"
 )
 
 func main() {
@@ -29,7 +28,7 @@ func main() {
     http.Handle("/new", templ.Handler(pages.New()))
 
     //New game page - create rules / invite people 
-    http.Handle("/game", templ.Handler(pages.Game(game)))
+    http.Handle("/game", templ.Handler(pages.Game(state.Select(1))))
 
     http.HandleFunc("/clue", handlers.ClueHandler) 
 
