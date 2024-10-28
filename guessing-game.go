@@ -11,7 +11,7 @@ import (
 
 func main() {
     state.SetupState();
-    //index
+
     game := state.State{
         GameId: 1,
         Turn: 1,
@@ -19,13 +19,14 @@ func main() {
         Guesser: "jimbo"}
 
     state.Insert(game)
-
     fmt.Println(game.Guesser)
 
     http.Handle("/", templ.Handler(pages.Index()))
 
     //New game page - create rules / invite people 
     http.Handle("/new", templ.Handler(pages.New()))
+
+    http.Handle("/create", templ.Handler(pages.New()))
 
     //New game page - create rules / invite people 
     http.Handle("/game", templ.Handler(pages.Game(state.Select(1))))
