@@ -11,7 +11,6 @@ import (
 
 func main() {
     state.SetupState();
-
     game := state.State{
         GameId: 1,
         Turn: 1,
@@ -24,9 +23,9 @@ func main() {
     http.Handle("/", templ.Handler(pages.Index()))
 
     //New game page - create rules / invite people 
-    http.Handle("/new", templ.Handler(pages.New()))
+    http.Handle("/new", templ.Handler(pages.New(game)))
 
-    http.Handle("/create", templ.Handler(pages.New()))
+    http.Handle("/create", templ.Handler(pages.New(game)))
 
     //New game page - create rules / invite people 
     http.Handle("/game", templ.Handler(pages.Game(state.Select(1))))

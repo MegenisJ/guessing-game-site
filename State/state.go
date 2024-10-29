@@ -62,10 +62,11 @@ func Select(gameId int) State{
     db := connect()
     defer db.Close()
 
-    rows,err := db.Query("select GameId,Phase, TurnCount,Guesser from foo where GameId == (?)")
+    rows,err := db.Query("select GameId,Phase, TurnCount,Guesser from foo where GameId == ?",gameId)
     if err != nil {
         log.Fatal(err)
     }
+
     defer rows.Close()
 
     for rows.Next(){

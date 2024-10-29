@@ -24,7 +24,7 @@ templ New(state State.State){
         <button  onClick="copyText()" > Copy      </button>
         <input id="gameurl" type="text" value="http://localhost:3000/new?id={ state.GameId }"/>
 
-        <form hx-post="/create?id={ state.GameId}>
+        <form hx-post="/create?id={ state.GameId}">
             Difficulty <input type="text" value="easy">
             Players: 1
             <button>Submit</button>
