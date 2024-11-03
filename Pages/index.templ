@@ -4,30 +4,16 @@ import "megenisj/guessing-game/Components"
 
 templ Index(){
     @Components.Header()
-    <body class="bg-gradient-to-r from-indigo-200 via-purple-400 to-pink-200">
-        <script type="text/javascript">
-            function copyText() {
-              // Get the text field
-              var copyText = document.getElementById("gameurl");
-
-              // Select the text field
-              copyText.select();
-              copyText.setSelectionRange(0, 99999); // For mobile devices
-
-               // Copy the text inside the text field
-              navigator.clipboard.writeText("https://localhost:3000/game/123");
-            } 
-
-        </script>
-        <div class="flex">
-            <div class="grow h-14">
-                @Components.JoinGame()
-            </div>
-            <div class="grow h-14">
-                @Components.CreateGame()
-            </div>
+    <body>
+    <div id="content" class="flex">
+        <div class="grow h-14">
+            @Components.JoinGame()
         </div>
+        <div class="grow h-14"> 
+            @Components.CreateGame()
+        </div>
+    </div>
+        @Components.Footer()
     </body>
-    @Components.Footer()
 }
 

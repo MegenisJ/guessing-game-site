@@ -1,15 +1,14 @@
 package Components
-
 templ CreateGame(){
 <div id="join-game" class="max-w-sm mx-auto mt-20 bg-white rounded-sm shadow-md overflow-hidden border-2 border-gray-900">
     <div class="px-6 py-2 bg-pink-200 text-gray-700 border-b-2 border-gray-900">
         <h1 class="text-base font-bold">Create a new Game!</h1>
     </div>
     <div class="px-6 mb-4">
-        <form>
+        <form hx-post="/new" hx-swap="#content">
             <div class="py-4 mb-4">
                 <label class="block text-gray-700 font-bold mb-2">
-                   Clue Timer 
+                    
                 </label>
                 <input
                     class="appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

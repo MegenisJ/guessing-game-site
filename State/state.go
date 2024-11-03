@@ -9,6 +9,7 @@ import (
 
 type State struct {
     GameId int
+    InLobby bool 
     Turn int
     Phase int
     Guesser string

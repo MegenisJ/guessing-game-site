@@ -5,29 +5,5 @@ import (
     "megenisj/guessing-game/State"
 )
 templ New(state State.State){
-    @Components.Header()
-    <body>
-        <script type="text/javascript">
-            function copyText() {
-              // Get the text field
-              var copyText = document.getElementById("gameurl");
-
-              // Select the text field
-              copyText.select();
-              copyText.setSelectionRange(0, 99999); // For mobile devices
-
-               // Copy the text inside the text field
-              navigator.clipboard.writeText("https://localhost:3000/new?id={ state.GameId }");
-            } 
-
-        </script>
-        <button  onClick="copyText()" > Copy      </button>
-        <input id="gameurl" type="text" value="http://localhost:3000/new?id={ state.GameId }"/>
-
-        <form hx-post="/create?id={ state.GameId}">
-            Difficulty <input type="text" value="easy">
-            Players: 1
-            <button>Submit</button>
-        </form>
-    </body>
+    @Components.Lobby()
 }

@@ -13,6 +13,7 @@ func main() {
     state.SetupState();
     game := state.State{
         GameId: 1,
+        InLobby: true,
         Turn: 1,
         Phase: 1,
         Guesser: "jimbo"}
@@ -24,8 +25,9 @@ func main() {
 
     //New game page - create rules / invite people 
     http.Handle("/new", templ.Handler(pages.New(game)))
+//    http.HandleFunc("/new", handlers.NewGameHandler)  
 
-    http.Handle("/create", templ.Handler(pages.New(game)))
+    http.HandleFunc("/start", handlers.NewGameHandler) 
 
     //New game page - create rules / invite people 
     http.Handle("/game", templ.Handler(pages.Game(state.Select(1))))
