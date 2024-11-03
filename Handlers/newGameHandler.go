@@ -12,5 +12,6 @@ func NewGameHandler(w http.ResponseWriter, r *http.Request){
         http.Error(w,"Unable to parse new game form", http.StatusBadRequest)
         return
     }
+    field1 := r.FormValue("")
     io.WriteString(w, "Ok \n")
 }
