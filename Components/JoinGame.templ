@@ -1,0 +1,29 @@
+package Components
+templ JoinGame(){
+<div id="join-game" class="max-w-sm mx-auto mt-20 shadow-lg shadow-indigo-500/40 bg-white rounded-sm shadow-md overflow-hidden border-2 border-gray-900">
+    <div class="px-6 py-2 bg-green-200 text-gray-700 border-b-2 border-gray-900">
+        <h1 class="text-base font-bold">Join an existing game!</h1>
+    </div>
+    <div class="px-6 mb-4">
+        <form>
+            <div class="py-4 mb-4 py-2">
+                <label class="block text-gray-700 font-bold px-3 mb-2"> 
+                   ENTER GAME CODE 
+                </label>
+                <input
+                    class="appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    type="text" placeholder="CODE">
+            </div>
+            <div class="mb-4 py-2">
+                    <button class="relative inline-block px-8 py-2 font-medium group">
+                        <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-teal-900 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+                        <span class="absolute inset-0 w-full h-full bg-white border-2 border-teal-900 group-hover:bg-teal-900"></span>
+                        <span class="relative text-teal-900 group-hover:text-white">
+                        <h1 class="text-base font-bold">JOIN</h1>
+                        </span>
+                    </button>
+            </div>
+        </form>
+    </div>
+</div>
+}
