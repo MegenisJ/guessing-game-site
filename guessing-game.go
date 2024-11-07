@@ -2,38 +2,58 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+    "strings"
 	"github.com/a-h/templ"
-	handlers "megenisj/guessing-game/Handlers"
-	state "megenisj/guessing-game/State"
-	pages "megenisj/guessing-game/pages"
+	"megenisj/guessing-game/Handlers"
+	"megenisj/guessing-game/State"
+	"megenisj/guessing-game/Pages"
+	"net/http"
+    "net/url"
 )
 
 func main() {
-    state.SetupState();
-    game := state.State{
-        GameId: 1,
-        InLobby: true,
-        Turn: 1,
-        Phase: 1,
-        Guesser: "jimbo"}
+	State.SetupState()
+	//todo:// for development
+	game := State.State{
+		GameId:  1,
+		InLobby: true,
+		Turn:    1,
+		Phase:   1,
+		Guesser: "jimbo"}
 
-    state.Insert(game)
-    fmt.Println(game.Guesser)
+	State.Insert(game)
+	fmt.Println(game.Guesser)
 
-    http.Handle("/", templ.Handler(pages.Index()))
+	//http.Handle("/", templ.Handler(Pages.Index()))
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		decodedPath, err := url.PathUnescape(r.URL.Path)
+		if err != nil {
+			http.Error(w, "Invalid URL path", http.StatusBadRequest)
+			return
+		}
+        fmt.Println(decodedPath)
+		if strings.Contains(decodedPath,"/🚀🎮") {
+			Handlers.StartGameHandler(w, r)
+            return
+		} else {
+		    Pages.Index().Render(r.Context(), w)	
+		}
+	})
 
-    //New game page - create rules / invite people 
-    http.Handle("/new", templ.Handler(pages.New(game)))
-//    http.HandleFunc("/new", handlers.NewGameHandler)  
+	http.Handle("/🎮", templ.Handler(Pages.Game(State.Select(1))))
 
-    http.HandleFunc("/start", handlers.NewGameHandler) 
+	//starts the lobby - create rules / invite people
+	http.HandleFunc("/🆕🎮", Handlers.NewGameHandler)
 
-    //New game page - create rules / invite people 
-    http.Handle("/game", templ.Handler(pages.Game(state.Select(1))))
+	//start game
+	//http.HandleFunc("/🚀🎮", Handlers.StartGameHandler)
 
-    http.HandleFunc("/clue", handlers.ClueHandler) 
+	//return a game (polled by game page)
+	http.HandleFunc("/🔄🎮", Handlers.NewGameHandler)
 
-    fmt.Println("listening on http://localhost:3000")
-    http.ListenAndServe(":3000", nil)
+	//handle clues
+	http.HandleFunc("/🕵️💬", Handlers.ClueHandler)
+	// handle guesses
+	fmt.Println("listening on http://localhost:3000")
+	http.ListenAndServe(":3000", nil)
 }

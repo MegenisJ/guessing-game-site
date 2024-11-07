@@ -1,8 +1,42 @@
 package Components
-templ Lobby(){
-    
-    //in a lobby you can 
-    //edit settings 
-    //view current players 
-    //vote to start game
+
+import (
+    "megenisj/guessing-game/State"
+    "fmt"
+)
+
+func getGameUrl(state State.State) string {
+    str := fmt.Sprintf("%d", state.GameId)
+    return "'" + "/🚀🎮?game=" + str + "'"
+}
+
+templ Lobby(state State.State){
+<div>Got some players</div>
+<div>Got some stuff and things</div>
+<div class="mb-4 py-2">
+    <button hx-post={ getGameUrl(state) } hx-swap="innerHtml" hx-target="#body" class="relative inline-block px-8 py-2 font-medium group">
+        <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-teal-900 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+        <span class="absolute inset-0 w-full h-full bg-white border-2 border-teal-900 group-hover:bg-teal-900"></span>
+        <span class="relative text-teal-900 group-hover:text-white">
+        <h1 class="text-base font-bold">START GAME</h1>
+        </span>
+    </button>
+</div>
+
+<div class="mb-4 py-2">
+    <button hx-post="/" hx-swap="innerHtml" hx-target="#body" class="relative inline-block px-8 py-2 font-medium group">
+        <span class="absolute inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-red-900 group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+        <span class="absolute inset-0 w-full h-full bg-white border-2 border-red-900 group-hover:bg-teal-900"></span>
+        <span class="relative text-red-900 group-hover:text-white">
+        <h1 class="text-base font-bold">Home</h1>
+        </span>
+    </button>
+</div>
+0/10 Players ready
+
+//in a lobby you can 
+//edit settings 
+//view current players 
+//vote to start game
+
 }

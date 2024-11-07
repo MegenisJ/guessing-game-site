@@ -1,4 +1,4 @@
-package pages
+package Pages
 
 import (
     "megenisj/guessing-game/Components"
@@ -8,12 +8,20 @@ import (
 templ Game(state State.State){
     @Components.Header()
     <body>
-    @Components.Leaderboard()
-    switch state.Phase {
-        case 1:
-            @Components.Clue()
-        case 2:
-            @Components.GuessPosition()
+    if state.InLobby {
+
+        @Components.Lobby(state)
+
+    } else {
+        @Components.Leaderboard()
+
+        switch state.Phase {
+            case 1:
+                @Components.Clue()
+            case 2:
+                @Components.GuessPosition()
+        }
+
     }
     </body>
 }

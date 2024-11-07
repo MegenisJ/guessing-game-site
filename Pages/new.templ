@@ -1,9 +1,12 @@
-package pages
+package Pages
 
 import (
     "megenisj/guessing-game/Components"
     "megenisj/guessing-game/State"
 )
-templ New(state State.State){
-    @Components.Lobby()
+
+
+templ New(){
+
+    @Components.Lobby(State.New())
 }

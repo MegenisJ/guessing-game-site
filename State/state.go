@@ -1,94 +1,133 @@
-package State 
+package State
 
 import (
 	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"os"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 type State struct {
-    GameId int
-    InLobby bool 
-    Turn int
-    Phase int
-    Guesser string
+	GameId  int
+	InLobby bool
+	Turn    int
+	Phase   int
+	Guesser string
 }
 
-func SetupState(){
-    os.Remove("./foo.db")
-    db:= connect()
-    defer db.Close()
+func SetupState() {
+	os.Remove("./foo.db")
+	db := connect()
+	defer db.Close()
 
-    sqlStmt := `
-        create table foo (GameId integer not null primary key, Phase integer, TurnCount int, Guesser string);
+	sqlStmt := `
+        create table foo (GameId integer not null primary key, InLobby bool, Phase integer, TurnCount int, Guesser string);
         delete from foo;
     `
-    _, err := db.Exec(sqlStmt)
+	_, err := db.Exec(sqlStmt)
 
-    if err != nil {
-        log.Printf("%q: %s\n", err, sqlStmt)
-        return
-    }
+	if err != nil {
+		log.Printf("%q: %s\n", err, sqlStmt)
+		return
+	}
 }
 
-func Insert(s State){
+func New() State {
+	game := State{
+		GameId:  1,
+		InLobby: true,
+		Turn:    1,
+		Phase:   1,
+		Guesser: "jimbo"}
 
-    db := connect();
-    defer db.Close();
-
-    tx, err := db.Begin()
-    if err != nil {
-        log.Fatal(err)
-    }
-    stmt, err := tx.Prepare("insert into foo(GameId, Phase, TurnCount, Guesser) values(?, ?, ?, ?)")
-
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer stmt.Close()
-
-    _,err = stmt.Exec(s.GameId,s.Phase,s.Turn,s.Guesser)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    err = tx.Commit()
-    if err != nil{
-        log.Fatal(err)
-    }
+	Insert(game)
+	return game
 }
 
-func Select(gameId int) State{
-    db := connect()
-    defer db.Close()
+func Start(game int) {
 
-    rows,err := db.Query("select GameId,Phase, TurnCount,Guesser from foo where GameId == ?",gameId)
-    if err != nil {
-        log.Fatal(err)
-    }
+	db := connect()
+	defer db.Close()
 
-    defer rows.Close()
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt, err := tx.Prepare("update foo set InLobby = false where GameId = 1")
 
-    for rows.Next(){
-        var GameId int
-        var Phase int
-        var TurnCount int
-        var Guesser string 
-        err = rows.Scan(&GameId, &Phase, &TurnCount, &Guesser)
-        if err != nil{
-            log.Fatal(err)
-        }
-        return State{GameId: GameId, Phase: Phase, Turn: TurnCount, Guesser: Guesser}
-    }
-    panic("unable to find record")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func connect() *sql.DB{ 
-    db, err := sql.Open("sqlite3", "./foo.db")
-    if err != nil {
-        panic(err)
-    }
+func Insert(s State) {
 
-    return db
+	db := connect()
+	defer db.Close()
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt, err := tx.Prepare("insert into foo(InLobby, Phase, TurnCount, Guesser) values(?,?, ?, ?)")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(s.InLobby,s.Phase, s.Turn, s.Guesser)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Select(gameId int) State {
+	db := connect()
+	defer db.Close()
+
+	rows, err := db.Query("select GameId,Phase, TurnCount,Guesser from foo where GameId == 1")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var GameId int
+		var Phase int
+		var TurnCount int
+		var Guesser string
+		err = rows.Scan(&GameId, &Phase, &TurnCount, &Guesser)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return State{GameId: GameId, Phase: Phase, Turn: TurnCount, Guesser: Guesser}
+	}
+	panic("unable to find record")
+}
+
+func connect() *sql.DB {
+	db, err := sql.Open("sqlite3", "./foo.db")
+	if err != nil {
+		panic(err)
+	}
+
+	return db
 }
