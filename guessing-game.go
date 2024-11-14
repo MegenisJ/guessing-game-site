@@ -45,9 +45,6 @@ func main() {
 	//starts the lobby - create rules / invite people
 	http.HandleFunc("/🆕🎮", Handlers.NewGameHandler)
 
-	//start game
-	//http.HandleFunc("/🚀🎮", Handlers.StartGameHandler)
-
 	//return a game (polled by game page)
 	http.HandleFunc("/🔄🎮", Handlers.NewGameHandler)
 
