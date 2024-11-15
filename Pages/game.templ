@@ -8,6 +8,7 @@ import (
 templ Game(state State.State){
     @Components.Header()
     <body>
+    <div class="content-center" >
     if state.InLobby {
         @Components.Lobby(state)
     } else {
@@ -21,5 +22,6 @@ templ Game(state State.State){
         }
 
     }
+    </div>
     </body>
 }
