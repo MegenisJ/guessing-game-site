@@ -6,9 +6,24 @@ import (
 )
 
 templ Game(state State.State){
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById("random-container");
+        const elements = container.getElementsByClassName("random-element");
+
+        Array.from(elements).forEach(element => {
+          const randomTop = Math.random() * (container.clientHeight - 224); // Subtract the element height (50px in this case)
+          const randomLeft = Math.random() * (container.clientWidth - 224); // Subtract the element width (50px in this case)
+
+          element.style.top = `${randomTop}px`;
+          element.style.left = `${randomLeft}px`;
+        });
+      });
+    </script>
     @Components.Header()
     <body>
-    <div class="content-center" >
+
+    <div id="random-container" class="relative w-full h-64 bg-gray-200">
     if state.InLobby {
         @Components.Lobby(state)
     } else {
